@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace src
+namespace src.Entities.Exceptions
 {
-    class Account
+    class DomainException
     {
     }
 }
