@@ -4,7 +4,11 @@ using System.Text;
 
 namespace src.Entities.Exceptions
 {
-    class DomainException
+    class DomainException : ApplicationException
     {
+        public DomainException(string message) : base(message)
+        {
+
+        }
     }
 }
