@@ -16,17 +16,28 @@ namespace src
             Account conta = new Account();
 
             bool loop = true;
-            while (true)
+            while (loop)
             {
                 try
                 {
-                    Console.WriteLine("Menu de opções");
-                    Console.WriteLine("1) Cadastrar conta");
-                    Console.WriteLine("2) Depósito");
-                    Console.WriteLine("3) Saque");
-                    Console.WriteLine("4) Sair");
-                    Console.WriteLine("Opção: ");
-                    int optSwitch = int.Parse(Console.ReadLine());
+                    int optSwitch;
+                    if (conta.Name != null)
+                    {
+                        Console.WriteLine(Environment.NewLine + "Conta cadastrada:");
+                        Console.WriteLine(conta.ToString() + Environment.NewLine);
+
+                        Console.WriteLine("Menu de opções");
+                        Console.WriteLine("1) Cadastrar conta");
+                        Console.WriteLine("2) Depósito");
+                        Console.WriteLine("3) Saque");
+                        Console.WriteLine("4) Sair");
+                        Console.Write("Opção: ");
+                        optSwitch = int.Parse(Console.ReadLine());
+                    }
+                    else
+                    {
+                        optSwitch = 1;
+                    }
 
                     switch (optSwitch)
                     {
@@ -40,16 +51,32 @@ namespace src
                             Console.Write("Limite de saque: R$ ");
                             double limiteSaque = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
                             conta = new Account(numero, nome, limiteSaque);
+                            Console.Write("Deseja fazer um depósito inicial (s/n)? ");
+                            string resposta = Console.ReadLine().Trim().ToLower();
+                            if (resposta[0] == 's' || resposta[0] == 'y')
+                            {
+                                Console.Write("Depósito inicial: R$ ");
+                                conta.Deposit(double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture));
+                            } 
                             ////////////////////////
                             break;
                         case 2:
+                            // Opção depósito
                             Console.WriteLine(Environment.NewLine + "Depósito");
+                            Console.Write("Valor do depósito: R$ ");
+                            conta.Deposit(double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture));
+                            ///////////////////////
                             break;
                         case 3:
+                            // Opção saque
                             Console.WriteLine(Environment.NewLine + "Saque");
+                            Console.Write("Valor do saque: R$ ");
+                            conta.Withdraw(double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture));
+                            ///////////////////////
                             break;
                         case 4:
                             Console.WriteLine(Environment.NewLine + "Sair");
+                            loop = false;
                             break;
 
                         default:

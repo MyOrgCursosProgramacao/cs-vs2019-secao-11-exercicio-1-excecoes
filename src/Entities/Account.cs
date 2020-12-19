@@ -34,32 +34,54 @@ namespace src.Entities
 
         public void Deposit (double amount)
         {
-            if (amount < 0)
+            try
             {
-                throw new DomainException("A quantia de depósito não pode ser um valor negativo");
-            }
+                if (amount < 0)
+                {
+                    throw new DomainException("A quantia de depósito não pode ser um valor negativo");
+                }
 
-            Balance += amount;
+                Balance += amount;
+            }
+            catch (DomainException e)
+            {
+                Console.WriteLine(Environment.NewLine + e.Message);
+                Console.Write("Valor do depósito: R$ ");
+                amount = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                Deposit(amount);
+            }
         }
 
         public void Withdraw (double amount)
         {
-            if (amount < 0)
+            try
             {
-                throw new DomainException("A quantia de saque não pode ser um valor negativo");
+                if (amount < 0)
+                {
+                    throw new DomainException("A quantia de saque não pode ser um valor negativo");
+                }
+                if (amount > WithdrawLimit)
+                {
+                    throw new DomainException("O valor ultrapassa o limite de saque de $"
+                         + WithdrawLimit.ToString("F2", CultureInfo.InvariantCulture));
+                }
+                if (amount > Balance)
+                {
+                    throw new DomainException("Saldo insuficiente R$"
+                        + Balance.ToString("F2", CultureInfo.InvariantCulture));
+                }
+
+                Console.WriteLine($"Saque de {amount} realizado");
+                Balance -= amount;
             }
-            if (amount > WithdrawLimit)
+            catch (DomainException e)
             {
-                throw new DomainException("O valor ultrapassa o limite de saque de $"
-                     + WithdrawLimit.ToString("F2", CultureInfo.InvariantCulture));
-            }
-            if (amount > Balance)
-            {
-                throw new DomainException("Saldo insuficiente ($"
-                    + Balance.ToString("F2", CultureInfo.InvariantCulture));
+                Console.WriteLine(Environment.NewLine + e.Message);
+                Console.Write("Valor do saque: R$ ");
+                amount = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                Withdraw(amount);
             }
 
-            Balance -= amount;
         }
 
         public override string ToString()
