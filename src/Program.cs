@@ -1,6 +1,7 @@
 ﻿using src.Entities;
 using src.Entities.Exceptions;
 using System;
+using System.Globalization;
 
 namespace src
 {
@@ -27,12 +28,19 @@ namespace src
                     Console.WriteLine("Opção: ");
                     int optSwitch = int.Parse(Console.ReadLine());
 
-                    switch
-()
+                    switch (optSwitch)
                     {
                         case 1:
+                            // Cadastrar nova conta
                             Console.WriteLine(Environment.NewLine + "Cadastrar nova conta");
-
+                            Console.Write("Número da conta ");
+                            int numero = int.Parse(Console.ReadLine());
+                            Console.Write("Nome: ");
+                            string nome = Console.ReadLine();
+                            Console.Write("Limite de saque: R$ ");
+                            double limiteSaque = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+                            conta = new Account(numero, nome, limiteSaque);
+                            ////////////////////////
                             break;
                         case 2:
                             Console.WriteLine(Environment.NewLine + "Depósito");
